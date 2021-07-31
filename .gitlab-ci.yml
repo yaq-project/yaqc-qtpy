@@ -1,0 +1,40 @@
+# configure
+image: python:latest
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"  # cache on project level
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+# common to all scripts
+before_script:
+  - python -V
+  - pip install -U virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+  - pip install -U flit
+  - pip install -U pytest
+  - pip install -U mypy
+  - pip install -U yaqc
+  - pip install -U yaqd-core
+  - pip install -U yaq-traits
+  - pip install .
+
+# test stage
+
+mypy:
+  stage: test
+  script:
+    - mypy yaqc_qtpy
+
+# deploy stage
+flit:
+  stage: deploy
+  script:
+    - flit publish
+  artifacts:
+    paths:
+      - dist/*
+  only:
+    - tags
