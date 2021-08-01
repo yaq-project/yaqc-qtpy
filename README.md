@@ -9,3 +9,6 @@
 
 Tooling for building simple yaq clients using qtpy.
 
+```bash
+yaqd list --format json | yaqc-qtpy -
+```
