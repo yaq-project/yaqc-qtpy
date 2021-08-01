@@ -2,6 +2,7 @@ from qtpy import QtWidgets, QtCore
 import qtypes
 import yaqc
 
+from ._fields_table_widget import FieldsTableWidget
 from ._plot import Plot1D
 
 
@@ -30,6 +31,8 @@ class MainWidget(QtWidgets.QWidget):
         self.table = qtypes.widgets.InputTable()
         self.table.append(None, f"{self.host}:{self.port}")
         self.scroll_area.add_widget(self.table)
+        self._fields_table_widget = FieldsTableWidget(self.host, self.port, verbose=True)
+        self.scroll_area.add_widget(self._fields_table_widget)
         hbox.addLayout(box)
         # finish
         self.setLayout(hbox)
@@ -38,11 +41,11 @@ class MainWidget(QtWidgets.QWidget):
         # id ---
         self.table.append(None, "id")
         # name
-        name = qtypes.String()
+        name = qtypes.String(disabled=True)
         name.set(self.client.id()["name"])
         self.table.append(name, "name")
         # kind
-        kind = qtypes.String()
+        kind = qtypes.String(disabled=True)
         kind.set(self.client.id()["kind"])
         self.table.append(kind, "kind")
         # make
@@ -61,14 +64,9 @@ class MainWidget(QtWidgets.QWidget):
         self.busy = qtypes.Bool()
         self.busy.set(self.client.busy())
         self.table.append(self.busy, "busy")
-        # fields
-        if len(self.client._protocol.get("fields", {})) > 0:
-            self.table.append(None, "fields")
-            for k, d in self.client._protocol["fields"].items():
-                self.table.append(qtypes.Number(), k)
         # traits
         if "has-position" in self.client.traits:
             self.position = qtypes.Number()
 
     def poll(self):
-        pass
+        self._fields_table_widget.poll()

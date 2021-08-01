@@ -2,6 +2,8 @@ from qtpy import QtWidgets, QtCore
 import qtypes
 import yaqc
 
+from ._fields_table_widget import FieldsTableWidget
+
 
 class CardWidget(QtWidgets.QWidget):
 
@@ -16,25 +18,19 @@ class CardWidget(QtWidgets.QWidget):
         except Exception as e:
             self.client = None
         self._set_table()
+        self._fields_table_widget = FieldsTableWidget(host, port)
+        self.box.addWidget(self._fields_table_widget)
         self.setLayout(self.box)
 
     def _set_table(self):
         # name
-        name = qtypes.String()
+        name = qtypes.String(disabled=True)
         name.set(self.client.id()["name"])
         self.table.append(name, "name")
         # busy
-        self.busy = qtypes.Bool()
+        self.busy = qtypes.Bool(disabled=True)
         self.busy.set(self.client.busy())
         self.table.append(self.busy, "busy")
-        # traits
-        if "has-position" in self.client.traits:
-            self.position = qtypes.Number()
-            self.table.append(self.position, "position")
 
     def poll(self):
-        # busy
-        #self.busy.set(self.client.busy())
-        # traits
-        if "has-position" in self.client.traits:
-            self.position.set(self.client.get_position())
+        self._fields_table_widget.poll()
