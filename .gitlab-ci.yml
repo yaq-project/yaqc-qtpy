@@ -23,11 +23,6 @@ before_script:
 
 # test stage
 
-mypy:
-  stage: test
-  script:
-    - mypy yaqc_qtpy
-
 # deploy stage
 flit:
   stage: deploy

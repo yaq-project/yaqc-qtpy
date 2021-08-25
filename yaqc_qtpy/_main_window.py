@@ -63,10 +63,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_frame = QtWidgets.QWidget(parent=self)
         hbox = QtWidgets.QHBoxLayout()
         # left hand scroll area
-        box = QtWidgets.QVBoxLayout()
         self.scroll_area = qtypes.widgets.ScrollArea()
-        box.addWidget(self.scroll_area)
-        hbox.addLayout(box)
+        hbox.addWidget(self.scroll_area)
         # expanding area
         self._big_box = QtWidgets.QVBoxLayout()
         hbox.addLayout(self._big_box)
