@@ -10,6 +10,7 @@ class CardWidget(QtWidgets.QWidget):
     def __init__(self, host: str, port: int):
         super().__init__()
         self.box = QtWidgets.QVBoxLayout()
+        self.box.setContentsMargins(0, 0, 0, 0)
         self.table = qtypes.widgets.InputTable()
         self.table.append(None, f"{host}:{port}")
         self.box.addWidget(self.table)
@@ -33,4 +34,5 @@ class CardWidget(QtWidgets.QWidget):
         self.table.append(self.busy, "busy")
 
     def poll(self):
+        self.busy.set(self.client.busy())
         self._fields_table_widget.poll()
