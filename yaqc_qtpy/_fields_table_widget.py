@@ -11,7 +11,8 @@ class FieldsTableWidget(qtypes.widgets.InputTable):
 
     def __init__(self, host: str, port: int, verbose=False):
         super().__init__()
-        self.append(None, "fields")
+        if verbose:
+            self.append(None, "fields")
         self.host = host
         self.port = port
         try:
