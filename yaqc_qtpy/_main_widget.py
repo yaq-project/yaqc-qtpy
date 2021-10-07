@@ -25,8 +25,9 @@ class MainWidget(QtWidgets.QTabWidget):
         # gui tabs provided via entrypoints
         group = f"yaqc_qtpy.main.{self.client._protocol['protocol']}"
         for ep in entrypoints.get_group_all(group):
-            self.addTab(ep.load()(host=host, port=port), ep.name)
-        self.setCurrentIndex(1)
+            print(ep)
+            self.addTab(ep.load()(client=None), ep.name)
+        self.setCurrentIndex(self.count() - 1)
 
     def poll(self):
         pass
