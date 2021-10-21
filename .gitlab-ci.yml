@@ -20,7 +20,7 @@ before_script:
   - pip install -U yaqd-core
   - pip install -U yaq-traits
   - pip install -U pyside2
-  - pip install . --no-build-isolation
+  - flit install
 
 # test stage
 
