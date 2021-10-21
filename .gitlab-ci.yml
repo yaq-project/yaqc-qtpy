@@ -24,6 +24,16 @@ before_script:
 # test stage
 
 # deploy stage
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - cp docs/* public/
+  artifacts:
+    paths:
+    - public/
+  only:
+  - master
 flit:
   stage: deploy
   script:
