@@ -19,6 +19,7 @@ before_script:
   - pip install -U yaqc
   - pip install -U yaqd-core
   - pip install -U yaq-traits
+  - pip install -U pyside2
   - pip install .
 
 # test stage
