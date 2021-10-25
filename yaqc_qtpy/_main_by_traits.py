@@ -11,8 +11,8 @@ from ._plot import Plot1D
 
 class MainByTraits(QtWidgets.QWidget):
 
-    def __init__(self, qclient):
-        super().__init__()
+    def __init__(self, qclient, *, parent=None):
+        super().__init__(parent=parent)
         self.qclient = qclient
         self._create_main_frame()
         self._set_table()
@@ -36,7 +36,7 @@ class MainByTraits(QtWidgets.QWidget):
         self.table = qtypes.widgets.InputTable()
         self.table.append(None, f"{self.qclient.host}:{self.qclient.port}")
         self.scroll_area.add_widget(self.table)
-        self._properties_table_widget = PropertiesTableWidget(qclient=self.qclient, verbose=True)
+        self._properties_table_widget = PropertiesTableWidget(qclient=self.qclient, verbose=True, parent=self)
         self.scroll_area.add_widget(self._properties_table_widget)
         hbox.addWidget(self.scroll_area)
         # finish

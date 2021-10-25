@@ -11,11 +11,11 @@ from ._plot import Plot1D
 
 class MainWidget(QtWidgets.QTabWidget):
 
-    def __init__(self, qclient):
-        super().__init__()
+    def __init__(self, qclient, *, parent=None):
+        super().__init__(parent=parent)
         self.qclient = qclient
         self.addTab(QtWidgets.QLabel("TODO"), "config")
-        self.addTab(MainByTraits(qclient=self.qclient), "traits")
+        self.addTab(MainByTraits(qclient=self.qclient, parent=self), "traits")
         # gui tabs provided via entrypoints
         group = f"yaqc_qtpy.main.{self.qclient._client._protocol['protocol']}"
         for ep in entrypoints.get_group_all(group):

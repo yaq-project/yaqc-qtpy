@@ -9,6 +9,7 @@ import qtypes
 from ._card_widget import CardWidget
 from ._main_widget import MainWidget
 from ._qclient import QClient
+from ._splash import Splash
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -23,15 +24,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self._card_widgets = {}
         self._view_buttons = {}
         self._main_widgets = {}
-        self._active_main_widget = None
         self._qclients = {}
         for key, value in json.items():
             host, port = key.split(":")
             port = int(port)
             self._qclients[key] = QClient(host=host, port=port)
             self._create_card(key)
-            self._create_main(key)
-        self._show_main_widget(key)
 
     def _create_card(self, key):
         # card widget
@@ -47,11 +45,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.scroll_area.add_widget(button)
         self._view_buttons[key] = button
 
-    def _create_main(self, key):
-        mw = MainWidget(qclient=self._qclients[key])
-        self._main_widgets[key] = mw
-        self._big_box.addWidget(mw)
-
     def _create_main_frame(self):
         self.main_frame = QtWidgets.QWidget(parent=self)
         hbox = QtWidgets.QHBoxLayout()
@@ -60,17 +53,23 @@ class MainWindow(QtWidgets.QMainWindow):
         hbox.addWidget(self.scroll_area)
         # expanding area
         self._big_box = QtWidgets.QVBoxLayout()
+        self._splash = Splash()
+        self._big_box.addWidget(self._splash)
         hbox.addLayout(self._big_box)
         # finish
         self.main_frame.setLayout(hbox)
         self.setCentralWidget(self.main_frame)
 
     def _show_main_widget(self, key):
-        for k, widget in self._main_widgets.items():
+        self._splash.hide()
+        for button in self._view_buttons.values():
+            button.setText("VIEW ADVANCED")
+            button.set_background("green")
+        for widget in self._main_widgets.values():
             widget.hide()
-            self._view_buttons[k].setText("VIEW ADVANCED")
-            self._view_buttons[k].set_background("green")
-        self._active_main_widget = self._main_widgets[key]
-        self._active_main_widget.show()
+        if key not in self._main_widgets:
+            self._main_widgets[key] = MainWidget(qclient=self._qclients[key], parent=self)
+            self._big_box.addWidget(self._main_widgets[key])
+        self._main_widgets[key].show()
         self._view_buttons[key].setText("VIEWING ADVANCED")
         self._view_buttons[key].set_background("yellow")
