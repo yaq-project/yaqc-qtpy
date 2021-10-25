@@ -8,6 +8,7 @@ import qtypes
 
 from ._card_widget import CardWidget
 from ._main_widget import MainWidget
+from ._qclient import QClient
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -21,30 +22,24 @@ class MainWindow(QtWidgets.QMainWindow):
         self._create_main_frame()
         self._card_widgets = {}
         self._view_buttons = {}
-        self._card_poll_index = 0
         self._main_widgets = {}
         self._active_main_widget = None
+        self._qclients = {}
         for key, value in json.items():
+            host, port = key.split(":")
+            port = int(port)
+            self._qclients[key] = QClient(host=host, port=port)
             self._create_card(key)
             self._create_main(key)
         self._show_main_widget(key)
-        # timers
-        self._card_timer = QtCore.QTimer()
-        self._card_timer.timeout.connect(self._poll_card_widget)
-        self._card_timer.start(10)
-        self._main_timer = QtCore.QTimer()
-        self._main_timer.timeout.connect(self._poll_main_widget)
-        self._main_timer.start(100)
 
     def _create_card(self, key):
-        host, port = key.split(":")
-        port = int(port)
         # card widget
-        cw =  CardWidget(host, port)
+        cw =  CardWidget(qclient=self._qclients[key])
         self._card_widgets[key] = cw
         self.scroll_area.add_widget(cw)
         # button
-        if cw.client is not None:
+        if cw.qclient is not None:
             button = qtypes.widgets.PushButton(label="VIEW ADVANCED", background="green")
         else:
             button = qtypes.widgets.PushButton(label="OFFLINE", background="red")
@@ -53,9 +48,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self._view_buttons[key] = button
 
     def _create_main(self, key):
-        host, port = key.split(":")
-        port = int(port)
-        mw = MainWidget(host, port)
+        mw = MainWidget(qclient=self._qclients[key])
         self._main_widgets[key] = mw
         self._big_box.addWidget(mw)
 
@@ -71,16 +64,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # finish
         self.main_frame.setLayout(hbox)
         self.setCentralWidget(self.main_frame)
-
-    def _poll_card_widget(self):
-        out = list(self._card_widgets.values())[self._card_poll_index]
-        self._card_poll_index += 1
-        if self._card_poll_index == len(self._card_widgets):
-            self._card_poll_index = 0
-        out.poll()
-
-    def _poll_main_widget(self):
-        self._active_main_widget.poll()
 
     def _show_main_widget(self, key):
         for k, widget in self._main_widgets.items():
