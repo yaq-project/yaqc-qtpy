@@ -1,5 +1,7 @@
 import pyqtgraph as pg
 
+from qtpy import QtCore
+
 
 class Plot1D(pg.GraphicsView):
     def __init__(self, title=None, xAutoRange=True, yAutoRange=False):

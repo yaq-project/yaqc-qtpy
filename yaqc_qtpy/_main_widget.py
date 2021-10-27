@@ -20,7 +20,7 @@ class MainWidget(QtWidgets.QTabWidget):
         group = f"yaqc_qtpy.main.{self.qclient._client._protocol['protocol']}"
         for ep in entrypoints.get_group_all(group):
             print(ep)
-            self.addTab(ep.load()(client=None), ep.name)
+            self.addTab(ep.load()(qclient), ep.name)
         self.setCurrentIndex(self.count() - 1)
 
     def poll(self):
