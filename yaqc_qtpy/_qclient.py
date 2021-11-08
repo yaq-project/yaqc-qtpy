@@ -48,6 +48,10 @@ class QClient(QtCore.QObject):
     def id(self):
         return self._id
 
+    @property
+    def traits(self):
+        return self._client.traits
+
     def _on_busy(self, busy):
         # poll timer
         if busy:
