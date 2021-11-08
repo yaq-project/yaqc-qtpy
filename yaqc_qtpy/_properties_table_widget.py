@@ -8,7 +8,7 @@ import functools
 from ._plot import Plot1D
 
 
-class PropertiesTableWidget(qtypes.widgets.InputTable):
+class PropertiesTableWidget(object):
 
     def __init__(self, qclient, verbose=False, *, parent=None):
         super().__init__()
