@@ -1,3 +1,4 @@
+import time
 
 import qtypes
 
@@ -13,20 +14,27 @@ def property_item(key, property, qclient):
         pass   # TODO:
     elif property.type in ["double"]:
 
-        def value_updated(value, item):
-            item.set({"value": value})
+        def value_updated(value, item, units):
+            current = item.get()
+            item.set({"value": qtypes._units.convert(value, units, current["units"])})
 
         def units_updated(units, item):
             item.set({"units": units})
 
+        units = qclient.properties[key].units()
+
+        while not units.finished:
+            time.sleep(0.01)
+
         item = qtypes.Float(disabled=disabled, label=key, value={"value": 5})
         from functools import partial
-        qclient.properties[key].updated.connect(partial(value_updated, item=item))
+        qclient.properties[key].updated.connect(partial(value_updated, item=item, units=units.result))
         qclient.properties[key].units.finished.connect(partial(units_updated, item=item))
+
         qclient.properties[key].units()
 
         def set_daemon(value):
-            raw = qtypes._units.convert(value["value"], value["units"], property.units())
+            raw = qtypes._units.convert(value["value"], value["units"], units.result)
             property(raw)
 
         item.edited.connect(set_daemon)
