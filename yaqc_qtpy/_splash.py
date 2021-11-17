@@ -22,6 +22,6 @@ class Splash(QtWidgets.QLabel):
             size, QtCore.Qt.KeepAspectRatio,
         )
         # start painting the label from left upper corner
-        point.setX((size.width() - scaledPix.width()) / 2)
-        point.setY((size.height() - scaledPix.height()) / 2)
+        point.setX((size.width() - scaledPix.width()) // 2)
+        point.setY((size.height() - scaledPix.height()) // 2)
         painter.drawPixmap(point, scaledPix)

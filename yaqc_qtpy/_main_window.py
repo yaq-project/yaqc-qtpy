@@ -63,5 +63,5 @@ class MainWindow(QtWidgets.QMainWindow):
             self._main_widgets[key] = MainWidget(qclient=self._qclients[key], parent=self)
             self._main_widget_container.layout().addWidget(self._main_widgets[key])
         self._main_widgets[key].show()
-        self._view_buttons[key].setText("VIEWING ADVANCED")
-        self._view_buttons[key].set_background("yellow")
+        #self._view_buttons[key].setText("VIEWING ADVANCED")
+        #self._view_buttons[key].set_background("yellow")
