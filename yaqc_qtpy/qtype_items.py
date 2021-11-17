@@ -25,6 +25,12 @@ def property_item(key, property, qclient):
         qclient.properties[key].units.finished.connect(partial(units_updated, item=item))
         qclient.properties[key].units()
 
+        def set_daemon(value):
+            raw = qtypes._units.convert(value["value"], value["units"], property.units())
+            property(raw)
+
+        item.edited.connect(set_daemon)
+
 
 
     elif property.type == "string" and "options_getter" in property._property.keys():
