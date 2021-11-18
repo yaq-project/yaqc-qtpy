@@ -5,5 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2021.11.0]
+
 ### Added
 - initial release
