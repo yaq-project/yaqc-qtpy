@@ -11,7 +11,6 @@ from . import qtype_items
 
 
 class IsSensorWidget(QtWidgets.QSplitter):
-
     def __init__(self, qclient, *, parent=None):
         super().__init__(parent=parent)
         self.qclient = qclient

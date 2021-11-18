@@ -2,66 +2,26 @@ import time
 
 import qtypes
 
-
-def property_item(key, property, qclient):
-    # disabled
-    if property._property.get("setter", None):
-        disabled = False
-    else:
-        disabled = True
-    # widgets
-    if property.type == "boolean":
-        pass   # TODO:
-    elif property.type in ["double"]:
-
-        def value_updated(value, item, units):
-            current = item.get()
-            item.set({"value": qtypes._units.convert(value, units, current["units"])})
-
-        def units_updated(units, item):
-            item.set({"units": units})
-
-        units = qclient.properties[key].units()
-
-        while not units.finished:
-            time.sleep(0.01)
-
-        item = qtypes.Float(disabled=disabled, label=key, value={"value": 5})
-        from functools import partial
-        qclient.properties[key].updated.connect(partial(value_updated, item=item, units=units.result))
-        qclient.properties[key].units.finished.connect(partial(units_updated, item=item))
-
-        qclient.properties[key].units()
-
-        def set_daemon(value):
-            raw = qtypes._units.convert(value["value"], value["units"], units.result)
-            property(raw)
-
-        item.edited.connect(set_daemon)
+from . import property_items
 
 
-
-    elif property.type == "string" and "options_getter" in property._property.keys():
-        return
-        allowed_values = getattr(self.client, property._property["options_getter"])()
-        item = qtypes.Enum(disabled=disabled, label=key)
-    elif property.type == "string":
-        item = qtypes.String(disabled=disabled, name=key)
-    else:
-        pass
-    # updated signal
-    #property.updated.connect(functools.partial(self._on_property_updated, key=key))
-    return item
-
-
-
-def append_properties(qclient, root):
+def append_properties(qclient, root, only_hinted=False):
     # TODO: move to own file
     for key, property in qclient.properties.items():
-        item = property_item(key, property, qclient)
-        if item:
-            root.append(item)
-
+        if only_hinted and property.control_kind == "normal":
+            continue
+        if property.type == "boolean":
+            continue
+            item = qtypes.Bool(disabled=disabled, label=key)
+        elif property.type in ["double"]:
+            root.append(property_items.Float(key, property, qclient))
+        elif property.type == "string" and "options_getter" in property._property.keys():
+            root.append(property_items.Enum(key, property, qclient))
+        elif property.type == "string":
+            continue
+            item = qtypes.String(disabled=disabled, name=key)
+        else:
+            pass
 
 
 def append_card_item(qclient, root):
@@ -71,9 +31,13 @@ def append_card_item(qclient, root):
     qclient.busy_signal.connect(busy.set_value)
     root.append(busy)
     # host:port
-    busy.append(qtypes.String(label="host:port", disabled=True, value={"value": f"{qclient.host}:{qclient.port}"}))
+    busy.append(
+        qtypes.String(
+            label="host:port", disabled=True, value={"value": f"{qclient.host}:{qclient.port}"}
+        )
+    )
     # properties
-    append_properties(qclient, busy)
+    append_properties(qclient, busy, only_hinted=True)
     # advanced button
     advanced_button = qtypes.Button(label="")
     busy.append(advanced_button)

@@ -31,7 +31,9 @@ class MainWindow(QtWidgets.QMainWindow):
             qclient = QClient(host=host, port=port)
             self._qclients[key] = qclient
             qtype_items.append_card_item(qclient, self._tree_widget)
-            self._tree_widget[-1][-1].updated.connect(functools.partial(self._show_main_widget, key=key))
+            self._tree_widget[-1][-1].updated.connect(
+                functools.partial(self._show_main_widget, key=key)
+            )
 
         self._tree_widget.expandAll()
         self._tree_widget.resizeColumnToContents(0)
@@ -44,7 +46,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # expanding area
         self._main_widget_container = QtWidgets.QWidget()
         self._main_widget_container.setLayout(QtWidgets.QHBoxLayout())
-        self._main_widget_container.layout().setContentsMargins(0,0,0,0)
+        self._main_widget_container.layout().setContentsMargins(0, 0, 0, 0)
         self._splash = Splash()
         self._main_widget_container.layout().addWidget(self._splash)
         splitter.addWidget(self._main_widget_container)
@@ -61,5 +63,5 @@ class MainWindow(QtWidgets.QMainWindow):
             self._main_widgets[key] = MainWidget(qclient=self._qclients[key], parent=self)
             self._main_widget_container.layout().addWidget(self._main_widgets[key])
         self._main_widgets[key].show()
-        #self._view_buttons[key].setText("VIEWING ADVANCED")
-        #self._view_buttons[key].set_background("yellow")
+        # self._view_buttons[key].setText("VIEWING ADVANCED")
+        # self._view_buttons[key].set_background("yellow")

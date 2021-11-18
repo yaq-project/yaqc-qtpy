@@ -9,7 +9,7 @@ from .__version__ import __version__
 
 
 @click.command()
-@click.argument('input', type=click.File('rb'))
+@click.argument("input", type=click.File("rb"))
 def main(input):
     input = json.load(input)
     app = QtWidgets.QApplication(sys.argv)

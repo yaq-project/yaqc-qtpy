@@ -13,7 +13,6 @@ from . import qtype_items
 
 
 class HasPositionWidget(QtWidgets.QSplitter):
-
     def __init__(self, qclient, *, parent=None):
         super().__init__(parent=parent)
         self.qclient = qclient
@@ -46,7 +45,11 @@ class HasPositionWidget(QtWidgets.QSplitter):
         traits_item = qtypes.Null("traits")
         self._tree_widget.append(traits_item)
         for trait in yaq_traits.__traits__.traits.keys():
-            traits_item.append(qtypes.Bool(label=trait, disabled=True, value={"value": trait in self.qclient.traits}))
+            traits_item.append(
+                qtypes.Bool(
+                    label=trait, disabled=True, value={"value": trait in self.qclient.traits}
+                )
+            )
 
         # properties
         properties_item = qtypes.Null("properties")
