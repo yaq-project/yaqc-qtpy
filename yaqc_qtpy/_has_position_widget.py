@@ -1,17 +1,18 @@
 import time
 
+import warnings
+
 from qtpy import QtWidgets, QtCore
 import qtypes
 import yaqc
 import numpy as np
 import yaq_traits
 
-from ._properties_table_widget import PropertiesTableWidget
 from ._plot import Plot1D
 from . import qtype_items
 
 
-class MainByTraits(QtWidgets.QSplitter):
+class HasPositionWidget(QtWidgets.QSplitter):
 
     def __init__(self, qclient, *, parent=None):
         super().__init__(parent=parent)
@@ -67,8 +68,10 @@ class MainByTraits(QtWidgets.QSplitter):
         # x axis
         self.plot_widget.set_xlim(-10, 0)
         # y axis
-        self._ymin = np.nanmin([np.nanmin(self._position_buffer), self._ymin])
-        self._ymax = np.nanmax([np.nanmax(self._position_buffer), self._ymax])
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self._ymin = np.nanmin([np.nanmin(self._position_buffer), self._ymin])
+            self._ymax = np.nanmax([np.nanmax(self._position_buffer), self._ymax])
         self.plot_widget.set_ylim(self._ymin, self._ymax)
         # labels
         self.plot_widget.set_labels(xlabel="seconds", ylabel="position")

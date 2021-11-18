@@ -9,6 +9,37 @@
 
 Tooling for building simple yaq clients using qtpy.
 
+## application usage
+
+TODO: screenshot
+
 ```bash
 yaqd list --format json | yaqc-qtpy -
 ```
+
+### entry point
+
+DOCUMENTATION TODO
+
+## library usage
+
+yaqc-qtpy can be used as a Python package for those building Qt-based interfaces to yaq.
+
+### qclient
+
+DOCUMENTATION TODO
+
+### item generators
+
+The yaqc-qtpy application uses the [qtypes](https://gitlab.com/yaq/qtypes) widget tooling.
+Other developers who are using qtypes can benefit from the built in item generators.
+
+DOCUMENTATION TODO
+
+#### `append_properties`
+
+DOCUMENTATION TODO
+
+#### `append_card_item`
+
+DOCUMENTATION TODO

@@ -7,7 +7,6 @@ import functools
 from qtpy import QtWidgets, QtCore
 import qtypes
 
-from ._card_widget import CardItem
 from ._main_widget import MainWidget
 from ._qclient import QClient
 from ._splash import Splash
@@ -52,10 +51,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # finish
         self.setCentralWidget(splitter)
         splitter.setStretchFactor(0, 1)
-        splitter.setStretchFactor(1, 10)
+        splitter.setStretchFactor(1, 50)
 
     def _show_main_widget(self, key):
-        print("SHOW MAIN WIDGET", key)
         self._splash.hide()
         for widget in self._main_widgets.values():
             widget.hide()
