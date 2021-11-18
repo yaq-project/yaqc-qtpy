@@ -5,7 +5,6 @@ from qtpy import QtCore
 
 
 class QTask(QtCore.QRunnable):
-
     def __init__(self, function, signal, args, kwargs):
         super().__init__()
         self._function = function

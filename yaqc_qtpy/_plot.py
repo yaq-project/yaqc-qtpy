@@ -35,7 +35,7 @@ class Plot1D(pg.GraphicsView):
         self.plot_object.addItem(curve)
         return curve
 
-    def add_text(self, text="", anchor=(0,0)):
+    def add_text(self, text="", anchor=(0, 0)):
         text = pg.TextItem(text=text)
         self.addItem(text)
         return text
