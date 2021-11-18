@@ -1,6 +1,6 @@
 import time
-
 import warnings
+from functools import partial
 
 from qtpy import QtWidgets, QtCore
 import qtypes
@@ -56,6 +56,16 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self._tree_widget.append(properties_item)
         qtype_items.append_properties(self.qclient, properties_item)
         properties_item.setExpanded(True)
+
+        # is-homeable
+        if "is-homeable" in self.qclient.traits:
+
+            def on_clicked(_, qclient):
+                qclient.home()
+
+            home_button = qtypes.Button("is-homeable", value={"text": "home"})
+            self._tree_widget.append(home_button)
+            home_button.updated.connect(partial(on_clicked, qclient=self.qclient))
 
         self._tree_widget.resizeColumnToContents(0)
         self.addWidget(self._tree_widget)
