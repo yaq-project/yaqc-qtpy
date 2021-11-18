@@ -38,6 +38,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self._tree_widget.expandAll()
         self._tree_widget.resizeColumnToContents(0)
 
+        self.setStyleSheet("".join(qtypes.styles["tomorrow-night"].values()))
+
     def _create_main_frame(self):
         splitter = QtWidgets.QSplitter()
         # left hand tree
