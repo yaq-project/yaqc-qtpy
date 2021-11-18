@@ -4,6 +4,7 @@ import yaqc
 import numpy as np
 import entrypoints
 
+from ._config_widget import ConfigWidget
 from ._has_position_widget import HasPositionWidget
 from ._is_sensor_widget import IsSensorWidget
 from ._plot import Plot1D
@@ -13,7 +14,7 @@ class MainWidget(QtWidgets.QTabWidget):
     def __init__(self, qclient, *, parent=None):
         super().__init__(parent=parent)
         self.qclient = qclient
-        self.addTab(QtWidgets.QLabel("TODO"), "config")
+        self.addTab(ConfigWidget(qclient=self.qclient, parent=self), "config")
         if "has-position" in self.qclient.traits:
             self.addTab(HasPositionWidget(qclient=self.qclient, parent=self), "has-position")
         if "is-sensor" in self.qclient.traits:

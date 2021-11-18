@@ -68,6 +68,7 @@ class QClient(QtCore.QObject):
         for prop in self.properties.values():
             if prop.dynamic:
                 prop()
-                if hasattr(prop, "limits"):
-                    prop.limits()
+                for k in ("units", "options", "limits"):
+                    if hasattr(prop, k):
+                        getattr(prop, k)()
         self.poll_signal.emit()
