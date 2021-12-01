@@ -26,14 +26,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self._qclients = {}
 
         for key, value in json.items():
-            host, port = key.split(":")
-            port = int(port)
-            qclient = QClient(host=host, port=port)
-            self._qclients[key] = qclient
-            qtype_items.append_card_item(qclient, self._tree_widget)
-            self._tree_widget[-1][-1].updated.connect(
-                functools.partial(self._show_main_widget, key=key)
-            )
+            try:
+                host, port = key.split(":")
+                port = int(port)
+                qclient = QClient(host=host, port=port)
+                self._qclients[key] = qclient
+                qtype_items.append_card_item(qclient, self._tree_widget)
+                self._tree_widget[-1][-1].updated.connect(
+                    functools.partial(self._show_main_widget, key=key)
+                )
+            except Exception:
+                self._tree_widget.append(qtypes.String(value["name"], disabled=True))
+                self._tree_widget[-1].set_value("offline")
 
         self._tree_widget.expandAll()
         self._tree_widget.resizeColumnToContents(0)

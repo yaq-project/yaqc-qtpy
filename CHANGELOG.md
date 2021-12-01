@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## Changed
+- Default launch with no arguments gets all daemons in yaqd-control cache
+- Allow for offline devices (placeholder tree item)
+
 ## [2021.11.0]
 
 ### Added
