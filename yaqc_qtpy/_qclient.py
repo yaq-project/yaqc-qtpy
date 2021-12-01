@@ -12,13 +12,14 @@ from ._qthread import QThreadedFunctionWrapper
 
 
 class QClient(QtCore.QObject):
-    reconnected = QtCore.Signal()  # TODO:
+    reconnected = QtCore.Signal()
     busy_signal = QtCore.Signal(bool)
     poll_signal = QtCore.Signal()
 
     def __init__(self, host, port):
         super().__init__()
         self._client = yaqc.Client(host=host, port=port)
+        self._client.register_connection_callback(self.reconnected.emit)
         self._id = self._client.id()
         self._cached_busy = None
         # messages
