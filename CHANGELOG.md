@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
-## Changed
+### Added
+- reconnect signal fires when reconnects occur
+
+### Changed
 - Default launch with no arguments gets all daemons in yaqd-control cache
 - Allow for offline devices (placeholder tree item)
 
