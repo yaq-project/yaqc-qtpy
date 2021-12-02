@@ -1,6 +1,30 @@
 import pyqtgraph as pg
 
-from qtpy import QtCore
+from qtpy import QtCore, QtWidgets
+
+
+class BigNumberWidget(QtWidgets.QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.setLayout(QtWidgets.QHBoxLayout())
+        self._label = QtWidgets.QLabel("")
+        self.layout().addWidget(self._label)
+        self.layout().addStretch(1)
+        self._number = QtWidgets.QLabel("")
+        self.layout().addWidget(self._number)
+        for label in self._label, self._number:
+            font = label.font()
+            font.setBold(True)
+            font.setPointSize(50)
+            label.setFont(font)
+
+    def set_label(self, text):
+        self._label.setText(text)
+
+    def set_number(self, number, fmt="%0.6f"):
+        text = fmt % number
+        self._number.setText(text)
 
 
 class Plot1D(pg.GraphicsView):
@@ -25,7 +49,7 @@ class Plot1D(pg.GraphicsView):
         if title:
             self.plot_object.setTitle(title)
 
-    def add_scatter(self, color="c", size=3, symbol="o"):
+    def add_scatter(self, color="#81a2be", size=10, symbol="o"):
         curve = pg.ScatterPlotItem(symbol=symbol, pen=(color), brush=(color), size=size)
         self.plot_object.addItem(curve)
         return curve
@@ -69,7 +93,7 @@ class Plot1D(pg.GraphicsView):
         else:
             print("style not recognized in add_infinite_line")
             linestyle = QtCore.Qt.SolidLine
-        pen = pg.mkPen(color, style=linestyle)
+        pen = pg.mkPen(color, style=linestyle, width=5)
         line = pg.InfiniteLine(pen=pen)
         line.setAngle(angle)
         line.setMovable(movable)
