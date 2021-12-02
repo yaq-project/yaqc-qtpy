@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - Default launch with no arguments gets all daemons in yaqd-control cache
 - Allow for offline devices (placeholder tree item)
+- overhauled has-position-widget
 
 ## [2021.11.0]
 
