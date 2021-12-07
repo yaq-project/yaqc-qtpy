@@ -52,10 +52,10 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self._lock_ylim = qtypes.Bool("lock ylim", value={"value":False})
         self._lock_ylim.updated.connect(self._on_lock_ylim)
         plot_item.append(self._lock_ylim)
-        self._ymin = qtypes.Float("ymin", disabled=True)
-        plot_item.append(self._ymin)
         self._ymax = qtypes.Float("ymax", disabled=True)
         plot_item.append(self._ymax)
+        self._ymin = qtypes.Float("ymin", disabled=True)
+        plot_item.append(self._ymin)
         plot_item.setExpanded(True)
 
         # id
