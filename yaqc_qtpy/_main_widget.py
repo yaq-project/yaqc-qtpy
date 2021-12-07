@@ -20,7 +20,8 @@ class MainWidget(QtWidgets.QTabWidget):
         if "is-sensor" in self.qclient.traits:
             self.addTab(IsSensorWidget(qclient=self.qclient, parent=self), "is-sensor")
         # gui tabs provided via entrypoints
-        group = f"yaqc_qtpy.main.{self.qclient._client._protocol['protocol']}"
+        group_name = self.qclient._client._protocol['protocol'].replace("-", "_")
+        group = f"yaqc_qtpy.main.{group_name}"
         for ep in entrypoints.get_group_all(group):
             print(ep)
             self.addTab(ep.load()(qclient), ep.name)
