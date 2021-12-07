@@ -64,7 +64,7 @@ class Plot1D(pg.GraphicsView):
         self.addItem(text)
         return text
 
-    def add_infinite_line(self, color="y", style="solid", angle=90.0, movable=False, hide=True):
+    def add_infinite_line(self, color="#eab700", style="solid", angle=90.0, movable=False, hide=True):
         """
         Add an InfiniteLine object.
         Parameters
