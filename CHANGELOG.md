@@ -7,11 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - reconnect signal fires when reconnects occur
+- is-sensor-widget
 
 ### Changed
 - Default launch with no arguments gets all daemons in yaqd-control cache
 - Allow for offline devices (placeholder tree item)
 - overhauled has-position-widget
+- Loading of plugin group name uses `_` instead of `-` due to restrictions in namespace
 
 ## [2021.11.0]
 
