@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - reconnect signal fires when reconnects occur
+- Console widget tab
 - is-sensor-widget
 
 ### Changed
