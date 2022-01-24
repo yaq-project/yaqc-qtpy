@@ -28,9 +28,9 @@ def Integer(key, property, qclient):
     # make item
     item = qtypes.Integer(disabled=disabled, label=key)
     # signals and slots
-    property.updated.connect(partial(value_updated, item=item, units=default_units.result))
+    property.updated.connect(partial(value_updated, item=item))
     if hasattr(property, "limits"):
-        property.limits.finished.connect(partial(limits_updated, item=item, units=default_units.result))
+        property.limits.finished.connect(partial(limits_updated, item=item))
         property.limits()
     item.edited.connect(partial(set_daemon, property=property))
     return item
