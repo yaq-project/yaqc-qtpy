@@ -11,15 +11,15 @@ def append_properties(qclient, root, only_hinted=False):
         if only_hinted and property.control_kind == "normal":
             continue
         if property.type == "boolean":
-            continue
-            item = qtypes.Bool(disabled=disabled, label=key)
-        elif property.type in ["double"]:
+            root.append(property_items.Boolean(key, property, qclient))
+        elif property.type in ["float", "double"]:
             root.append(property_items.Float(key, property, qclient))
         elif property.type == "string" and "options_getter" in property._property.keys():
             root.append(property_items.Enum(key, property, qclient))
         elif property.type == "string":
-            continue
-            item = qtypes.String(disabled=disabled, name=key)
+            root.append(property_items.String(key, property, qclient))
+        elif property.type == "int":
+            root.append(property_items.Integer(key, property, qclient))
         else:
             pass
 

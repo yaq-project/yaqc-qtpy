@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- boolean properties support
+- integer properties support
+- string properties support
+
 ## [2021.12.0]
 
 ### Added
