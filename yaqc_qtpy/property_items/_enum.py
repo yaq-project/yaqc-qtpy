@@ -7,11 +7,6 @@ from functools import partial
 import qtypes
 
 
-def value_updated(value, item, units):
-    current = item.get()
-    item.set({"value": qtypes._units.convert(value, units, current["units"])})
-
-
 def options_updated(value, item):
     item.set({"allowed": value})
 
