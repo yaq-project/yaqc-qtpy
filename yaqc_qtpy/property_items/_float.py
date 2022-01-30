@@ -31,13 +31,17 @@ def Float(key, property, qclient):
     # make item
     item = qtypes.Float(disabled=disabled, label=key)
     # signals and slots
-    default_units = property.units()
-    while not default_units.finished:
-        time.sleep(0.01)
-    item.set({"units": default_units.result})
-    property.updated.connect(partial(value_updated, item=item, units=default_units.result))
+    if hasattr(property, "units"):
+        default_units = property.units()
+        while not default_units.finished:
+            time.sleep(0.01)
+        default_units = default_units.result
+    else:
+        default_units = None
+    item.set({"units": default_units})
+    property.updated.connect(partial(value_updated, item=item, units=default_units))
     if hasattr(property, "limits"):
-        property.limits.finished.connect(partial(limits_updated, item=item, units=default_units.result))
+        property.limits.finished.connect(partial(limits_updated, item=item, units=default_units))
         property.limits()
-    item.edited.connect(partial(set_daemon, default_units=default_units.result, property=property))
+    item.edited.connect(partial(set_daemon, default_units=default_units, property=property))
     return item
