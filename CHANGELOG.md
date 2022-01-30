@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - integer properties support
 - string properties support
 
+### Fixed
+- float properties without units were crashing program 
+
 ## [2021.12.0]
 
 ### Added
