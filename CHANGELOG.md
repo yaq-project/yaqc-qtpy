@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.1.0]
+
 ### Added
 - boolean properties support
 - integer properties support
@@ -32,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - initial release
 
 
-[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2021.12.0...main
+[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.1.0...main
+[2022.1.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2021.12.0...v2022.1.0
 [2021.12.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2021.11.0...v2021.12.0
 [2021.11.0]: https://gitlab.com/yaq/yaqc-qtpy/-/tags/v2021.11.0
