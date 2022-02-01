@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- enum property updates value properly
+
 ## [2022.1.0]
 
 ### Added
@@ -13,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - string properties support
 
 ### Fixed
-- float properties without units were crashing program 
+- float properties without units were crashing program
 
 ## [2021.12.0]
 
