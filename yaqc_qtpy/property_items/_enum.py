@@ -28,7 +28,7 @@ def Enum(key, property, qclient):
     # make item
     item = qtypes.Enum(disabled=disabled, label=key)
     # signals and slots
-    property.updated.connect(partial(options_updated, item=item))
+    property.updated.connect(partial(value_updated, item=item))
     property()
     property.options.finished.connect(partial(options_updated, item=item))
     property.options()
