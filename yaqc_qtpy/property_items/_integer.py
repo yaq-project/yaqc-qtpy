@@ -8,7 +8,7 @@ import qtypes
 
 
 def value_updated(value, item):
-    item.set({"value": item.get()})
+    item.set({"value": value})
 
 
 def limits_updated(value, item):
