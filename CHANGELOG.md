@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.2.1]
+
 ### Fixed
 - behavior of limits with unit changes on float properties
 
@@ -47,7 +49,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - initial release
 
 
-[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.0...main
+[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.1...main
+[2022.2.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.0...v2022.2.1
 [2022.2.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.1.1...v2022.2.0
 [2022.1.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.1.0...v2022.1.1
 [2022.1.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2021.12.0...v2022.1.0
