@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- behavior of limits with unit changes on float properties
+
 ## [2022.2.0]
 
+### Fixed
 - re fix enum property value updating
 
 ## [2022.1.1]

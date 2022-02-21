@@ -13,8 +13,13 @@ def value_updated(value, item, units):
 
 
 def limits_updated(value, item, units):
-    # TODO: units
-    item.set({"minimum": value[0], "maximum": value[1]})
+    current = item.get()
+    item.set(
+        {
+            "minimum": qtypes._units.convert(value[0], units, current["units"]),
+            "maximum": qtypes._units.convert(value[1], units, current["units"]),
+        }
+    )
 
 
 def set_daemon(value, default_units, property):
