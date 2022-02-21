@@ -10,7 +10,16 @@ author-email = "blaise@untzag.com"
 home-page = "https://yaq.fyi"
 description-file = "README.md"
 requires-python = ">=3.7"
-requires = ["yaqd-core>=2020.06.3", "yaqc", "yaq-traits", "yaqd-control", "click", "qtpy", "qtypes>=2022.1.1", "pyside2", "numpy", "qtconsole"]
+requires = ["yaqd-core>=2020.06.3",
+            "yaqc",
+            "yaq-traits",
+            "yaqd-control",
+            "click",
+            "qtpy",
+            "qtypes>=2022.2.0",
+            "pyside2", 
+            "numpy", 
+            "qtconsole"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Science/Research",
