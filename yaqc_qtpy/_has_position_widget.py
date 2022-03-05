@@ -32,13 +32,19 @@ class HasPositionWidget(QtWidgets.QSplitter):
         # plot
         plot_container_widget = QtWidgets.QWidget()
         plot_container_widget.setLayout(QtWidgets.QVBoxLayout())
-        plot_container_widget.layout().setContentsMargins(0,0,0,0)
+        plot_container_widget.layout().setContentsMargins(0, 0, 0, 0)
         self._big_number = BigNumberWidget()
         plot_container_widget.layout().addWidget(self._big_number)
         self.plot_widget = Plot1D()
-        self._minimum_line = self.plot_widget.add_infinite_line(hide=False, angle=0, color="#cc6666")
-        self._maximum_line = self.plot_widget.add_infinite_line(hide=False, angle=0, color="#cc6666")
-        self._destination_line = self.plot_widget.add_infinite_line(hide=False, angle=0, color="#b5bd68")
+        self._minimum_line = self.plot_widget.add_infinite_line(
+            hide=False, angle=0, color="#cc6666"
+        )
+        self._maximum_line = self.plot_widget.add_infinite_line(
+            hide=False, angle=0, color="#cc6666"
+        )
+        self._destination_line = self.plot_widget.add_infinite_line(
+            hide=False, angle=0, color="#b5bd68"
+        )
         self._scatter = self.plot_widget.add_scatter()
         plot_container_widget.layout().addWidget(self.plot_widget)
         self.addWidget(plot_container_widget)
@@ -49,7 +55,7 @@ class HasPositionWidget(QtWidgets.QSplitter):
         # plot control
         plot_item = qtypes.Null("plot")
         self._tree_widget.append(plot_item)
-        self._lock_ylim = qtypes.Bool("lock ylim", value={"value":False})
+        self._lock_ylim = qtypes.Bool("lock ylim", value={"value": False})
         self._lock_ylim.updated.connect(self._on_lock_ylim)
         plot_item.append(self._lock_ylim)
         self._ymax = qtypes.Float("ymax", disabled=True)
@@ -100,8 +106,8 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self._destination_line.setValue(destination)
 
     def _on_get_limits(self, result):
-        self._minimum_line.setValue(min(result))
-        self._maximum_line.setValue(max(result))
+        self._minimum_line.setValue(np.nanmin(result))
+        self._maximum_line.setValue(np.nanmax(result))
 
     def _on_lock_ylim(self, dic):
         locked = dic["value"]
