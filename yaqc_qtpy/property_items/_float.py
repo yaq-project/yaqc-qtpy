@@ -14,10 +14,11 @@ def value_updated(value, item, units):
 
 def limits_updated(value, item, units):
     current = item.get()
+    lims = qtypes._units.convert(value, units, current["units"])
     item.set(
         {
-            "minimum": qtypes._units.convert(value[0], units, current["units"]),
-            "maximum": qtypes._units.convert(value[1], units, current["units"]),
+            "minimum": min(lims),
+            "maximum": max(lims),
         }
     )
 

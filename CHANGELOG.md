@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- Use nanmin/nanmax for additional plotting over min/max
+- Ensure min/max make sense when units change (i.e. min is less than max)
+
 ## [2022.2.1]
 
 ### Fixed
