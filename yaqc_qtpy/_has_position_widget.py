@@ -141,3 +141,11 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self.plot_widget.set_ylim(self._ymin.get_value(), self._ymax.get_value())
         # labels
         self.plot_widget.set_labels(xlabel="seconds", ylabel="position")
+
+    def close(self):
+        super().close()
+        if "position" in self.qclient.properties:
+            self.qclient.properties.position.updated.disconnect(self._on_position_updated)
+            self.qclient.properties.destination.updated.disconnect(self._on_destination_updated)
+        if "has-limits" in self.qclient.traits:
+            self.qclient.get_limits.finished.disconnect(self._on_get_limits)

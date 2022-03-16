@@ -184,3 +184,7 @@ class IsSensorWidget(QtWidgets.QSplitter):
     def _on_reset_ylim(self, _=None):
         self._ymin.set_value(np.nanmin(self._position_buffer))
         self._ymax.set_value(np.nanmax(self._position_buffer))
+
+    def close(self):
+        super().close()
+        self.qclient.get_measured.finished.disconnect(self._on_get_measured)
