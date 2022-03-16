@@ -10,6 +10,7 @@ import qtypes
 from ._main_widget import MainWidget
 from ._qclient import QClient
 from ._splash import Splash
+from ._lru_dict import LRUDict
 from . import qtype_items
 
 
@@ -22,7 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("yaqc-qtpy")
         # create widgets
         self._create_main_frame()
-        self._main_widgets = {}
+        self._main_widgets = LRUDict(maxsize=3, cleanup=lambda x: x.close())
         self._qclients = {}
 
         for key, value in json.items():
