@@ -16,7 +16,7 @@ signals: Dict[int, Tuple[qtpy.QtCore.Signal, Callable]] = {}
 
 @disconnect(signals)
 def value_updated(value, item):
-    item.set({"value": item.get()})
+    item.set({"value": value})
 
 
 def set_daemon(value, property):
