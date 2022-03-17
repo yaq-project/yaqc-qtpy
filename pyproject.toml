@@ -17,8 +17,9 @@ requires = ["yaqd-core>=2020.06.3",
             "click",
             "qtpy",
             "qtypes>=2022.2.0",
-            "pyside2", 
-            "numpy", 
+	    "pyqtgraph",
+            "pyside2",
+            "numpy",
             "qtconsole"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
