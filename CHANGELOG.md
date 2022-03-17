@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - only three main widgets are kept in memory at once
+- has-sensor window only updates if measurement_id has changed
 
 ### Fixed
 - Use nanmin/nanmax for additional plotting over min/max

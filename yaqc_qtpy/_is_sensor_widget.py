@@ -23,10 +23,12 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._timestamp_buffer = deque(maxlen=250)
         # signals and slots
         self.qclient.get_measured.finished.connect(self._on_get_measured)
+        self.qclient.get_measurement_id.finished.connect(self._on_get_measurement_id)
         self._poll_timer = QtCore.QTimer()
         self._poll_timer.start(500)
         self._poll_timer.timeout.connect(self._poll)
         self._poll_period.updated.connect(self._on_poll_period_updated)
+        self._last_plotted_measurement_id = float("nan")
 
     def _create_main_frame(self):
         # plot
@@ -122,7 +124,15 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._channel_shapes = shapes_task.result
         self._channel_units = shapes_task.result
 
+    def _on_get_measurement_id(self, measurement_id):
+        self._scatter.setData(
+            np.array(self._timestamp_buffer) - time.time(), self._position_buffer
+        )
+        if self._last_plotted_measurement_id != measurement_id:
+            self.qclient.get_measured()
+
     def _on_get_measured(self, measured):
+        self._last_plotted_measurement_id = measured["measurement_id"]
         measured = measured[self._channel_selector.get_value()]
         self._big_number.set_label(self._channel_selector.get_value())
         self._big_number.set_number(measured)
@@ -161,7 +171,7 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._poll_timer.setInterval(int(dic["value"] * 1000))
 
     def _poll(self):
-        self.qclient.get_measured()
+        self.qclient.get_measurement_id()
 
     def _on_channel_selector_updated(self, _=None):
         self._position_buffer = deque(maxlen=self._cached_count.get_value())

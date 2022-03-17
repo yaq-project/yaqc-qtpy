@@ -10,7 +10,7 @@ import qtpy
 
 from ._disconnect import disconnect
 
-signals: Dict[int, Tuple[qtpy.Signal, Callable]] = {}
+signals: Dict[int, Tuple[qtpy.QtCore.Signal, Callable]] = {}
 
 
 @disconnect(signals)
