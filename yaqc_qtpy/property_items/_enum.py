@@ -27,7 +27,7 @@ def set_daemon(value, property):
     property(value["value"])
 
 
-def Enum(key, property, qclient):
+def Enum(key, property, qclient, symbols=None):
     # disabled
     if property._property.get("setter", None):
         disabled = False
@@ -35,15 +35,19 @@ def Enum(key, property, qclient):
         disabled = True
     # make item
     item = qtypes.Enum(disabled=disabled, label=key)
+    signals[id(item)] = []
     # signals and slots
     sig, func = property.updated, partial(value_updated, item=item)
     signals[id(item)].append((sig, func))
     sig.connect(func)
-    sig, func = property.options.finished, partial(options_updated, item=item)
-    signals[id(item)].append((sig, func))
-    sig.connect(func)
+    if symbols is not None:
+        options_updated(symbols, item)
+    else:
+        sig, func = property.options.finished, partial(options_updated, item=item)
+        signals[id(item)].append((sig, func))
+        sig.connect(func)
+        property.options()
     sig, func = item.edited, partial(set_daemon, property=property)
     signals[id(item)].append((sig, func))
     sig.connect(func)
-    property.options()
     return item

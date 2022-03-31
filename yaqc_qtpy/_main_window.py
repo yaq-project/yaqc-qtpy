@@ -36,7 +36,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self._tree_widget[-1][-1].updated.connect(
                     functools.partial(self._show_main_widget, key=key)
                 )
-            except Exception:
+            except Exception as e:
+                print(e)
                 self._tree_widget.append(qtypes.String(value["name"], disabled=True))
                 self._tree_widget[-1].set_value("offline")
 
