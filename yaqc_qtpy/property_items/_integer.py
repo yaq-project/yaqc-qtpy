@@ -36,6 +36,7 @@ def Integer(key, property, qclient):
         disabled = True
     # make item
     item = qtypes.Integer(disabled=disabled, label=key)
+    signals[id(item)] = []
     # signals and slots
     sig, func = property.updated, partial(value_updated, item=item)
     signals[id(item)].append((sig, func))
