@@ -20,6 +20,9 @@ def append_properties(qclient, root, only_hinted=False):
             root.append(property_items.String(key, property, qclient))
         elif property.type == "int":
             root.append(property_items.Integer(key, property, qclient))
+        elif qclient._client._named_types.get(property.type, {}).get("type") == "enum":
+            schema = qclient._client._named_types[property.type]
+            root.append(property_items.Enum(key, property, qclient, schema["symbols"]))
         else:
             pass
 

@@ -1,0 +1,2 @@
+{"127.0.0.1:36606": {"host": "127.0.0.1", "port": 36606, "kind": "test-enum", "name": "test-enum", "config_filepath": "test_enum_config.toml", "make": null, "model": null, "serial": null}}
+

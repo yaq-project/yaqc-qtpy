@@ -1,0 +1,19 @@
+protocol="test-enum"
+traits = ["is-daemon"]
+
+[[types]]
+type = "enum"
+name = "rgb"
+symbols = ["red", "green", "blue"]
+
+[messages]
+set_rgb.request = [{"name"="color", "type"="rgb"}]
+get_rgb.response = "rgb"
+
+[properties]
+[properties.rgb]
+getter = "get_rgb"
+setter = "set_rgb"
+type = "rgb"
+control_kind = "hinted"
+record_kind = "metadata"
