@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- Hidden items list to help organize "important" daemons
+- Items with dependent daemons show them in a collapsed list
+
+### Changed
+- Items are sorted by their name
+
 ### Fixed
 - Ensure empty lists for signal/slot tuples are made before appending to them
 
