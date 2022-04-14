@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.4.0]
+
 ### Added
 - Hidden items list to help organize "important" daemons
 - Items with dependent daemons show them in a collapsed list
@@ -74,7 +76,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - initial release
 
 
-[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.3.1...main
+[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.4.0...main
+[2022.4.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.3.1...v2022.4.0
 [2022.3.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.3.0...v2022.3.1
 [2022.3.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.1...v2022.3.0
 [2022.2.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.0...v2022.2.1
