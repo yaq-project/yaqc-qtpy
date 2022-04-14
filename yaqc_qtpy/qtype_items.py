@@ -2,7 +2,7 @@ import time
 
 import qtypes
 
-from . import property_items
+from . import property_items, QClient
 
 
 def append_properties(qclient, root, only_hinted=False):
@@ -27,12 +27,13 @@ def append_properties(qclient, root, only_hinted=False):
             pass
 
 
-def append_card_item(qclient, root):
+def append_card_item(qclient, root, position=-1):
     # TODO: move to own file
     # busy
     busy = qtypes.Bool(f"{qclient.id()['name']}", disabled=True)
     qclient.busy_signal.connect(busy.set_value)
-    root.append(busy)
+    busy.qclient = qclient
+    root.insert(position, busy)
     # host:port
     busy.append(
         qtypes.String(
@@ -45,3 +46,19 @@ def append_card_item(qclient, root):
     advanced_button = qtypes.Button(label="")
     busy.append(advanced_button)
     advanced_button._widget.setText("view advanced menu")
+    if hasattr(qclient, "get_dependent_hardware"):
+        dependents = qtypes.Null("Dependents")
+        busy.append(dependents)
+        task = qclient.get_dependent_hardware()
+        while not task.finished:
+            time.sleep(0.01)
+        for key, host_port in task.result.items():
+            try:
+                host, port = host_port.split(":", 1)
+                if host in ("localhost", "127.0.0.1"):
+                    host = qclient.host
+                dep_client = QClient(host, int(port))
+                append_card_item(dep_client, dependents)
+            except:
+                dependents.append(qtypes.String(key, True, value={"value": "offline"}))
+    return busy
