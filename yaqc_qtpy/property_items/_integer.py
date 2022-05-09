@@ -46,7 +46,5 @@ def Integer(key, property, qclient):
         signals[id(item)].append((sig, func))
         sig.connect(func)
         property.limits()
-    sig, func = item.edited, partial(set_daemon, property=property)
-    signals[id(item)].append((sig, func))
-    sig.connect(func)
+    item.edited_connect(partial(set_daemon, property=property))
     return item
