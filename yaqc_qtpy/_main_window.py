@@ -49,8 +49,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self._hidden = qtypes.Null("Hidden")
         self._root_item.append(self._hidden)
 
-        for key, value in json.items():
-            self._add_card(key, value["name"])
+        with self._root_item.suppress_restructured():
+            for key, value in json.items():
+                self._add_card(key, value["name"])
+
         self._tree_widget.resizeColumnToContents(0)
         self.setStyleSheet("".join(qtypes.styles["tomorrow-night"].values()))
 
@@ -93,16 +95,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _remove_card(self, key):
         ret = key
-        for index, card in enumerate(self._root_item.children):
-            if isinstance(card, qtypes.Null):
-                continue
-            if card.key == key:
-                card.setHidden(True)
-                ret = card.get()["label"]
-        for index, card in enumerate(self._hidden.children):
-            if card.key == key:
-                card.setHidden(True)
-                ret = card.get()["label"]
+        if key in self._hidden:
+            ret = self._hidden[key].get()["label"]
+            del self._hidden[key]
+        elif key in self._root_item:
+            ret = self._root_item[key].get()["label"]
+            del self._root_item[key]
         return ret
 
     def _add_card(self, key, name):
@@ -121,11 +119,15 @@ class MainWindow(QtWidgets.QMainWindow):
             view_advanced = tree[pos][-1]
             if view_advanced.get()["label"] != "":
                 view_advanced = tree[pos][-2]
-            view_advanced.updated_connect(functools.partial(self._show_main_widget, key=key))
-            view_advanced.append(
-                qtypes.Button("", value={"text": "Unhide" if tree == self._hidden else "Hide"})
+            view_advanced.updated_connect(
+                lambda _: functools.partial(self._show_main_widget, key=key)()
             )
-            view_advanced[-1].updated_connect(functools.partial(self._toggle_hide, key=key))
+            view_advanced.append(
+                qtypes.Button("", text="Unhide" if tree == self._hidden else "Hide")
+            )
+            view_advanced[-1].updated_connect(
+                lambda _: functools.partial(self._toggle_hide, key=key)()
+            )
 
         except Exception as e:
             print(e)
@@ -134,7 +136,7 @@ class MainWindow(QtWidgets.QMainWindow):
             pos = calc_position(tree, name)
             tree.insert(pos, card)
             tree[pos].set_value("offline")
-            tree[pos].append(
-                qtypes.Button("", value={"text": "Unhide" if tree == self._hidden else "Hide"})
-            )
+            tree[pos].append(qtypes.Button("", text="Unhide" if tree == self._hidden else "Hide"))
             tree[pos][-1].updated_connect(functools.partial(self._toggle_hide, key=key))
+
+        print(tree.get(), len(tree))
