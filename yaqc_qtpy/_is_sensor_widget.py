@@ -53,34 +53,28 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._root_item.append(plot_item)
         x_item = qtypes.Null("x axis")
         plot_item.append(x_item)
-        self._cached_count = qtypes.Integer(
-            "cached values", value={"value": 250, "minimum": 0, "maximum": 1000}
-        )
+        self._cached_count = qtypes.Integer("cached values", value=250, minimum=0, maximum=1000)
         self._cached_count.updated_connect(self._on_cached_count_updated)
         x_item.append(self._cached_count)
-        self._poll_period = qtypes.Float(
-            "poll period (s)", value={"value": 0.5, "minimum": 0, "maximum": 1000}
-        )
+        self._poll_period = qtypes.Float("poll period (s)", value=0.5, minimum=0, maximum=1000)
         x_item.append(self._poll_period)
-        self._xmin = qtypes.Float("xmin (s)", value={"value": -60, "minimum": -100, "maximum": 0})
+        self._xmin = qtypes.Float("xmin (s)", value=-60, minimum=-100, maximum=0)
         self._xmin.updated_connect(self._on_xmin_updated)
         x_item.append(self._xmin)
         # x_item.setExpanded(True)
         y_item = qtypes.Null("y axis")
         plot_item.append(y_item)
-        self._channel_selector = qtypes.Enum(
-            "channel", value={"allowed": list(self._channel_shapes.keys())}
-        )
+        self._channel_selector = qtypes.Enum("channel", allowed=list(self._channel_shapes.keys()))
         self._channel_selector.updated_connect(self._on_channel_selector_updated)
         y_item.append(self._channel_selector)
-        self._lock_ylim = qtypes.Bool("lock ylim", value={"value": False})
+        self._lock_ylim = qtypes.Bool("lock ylim", value=False)
         self._lock_ylim.updated_connect(self._on_lock_ylim)
         y_item.append(self._lock_ylim)
         self._ymax = qtypes.Float("ymax", disabled=True)
         y_item.append(self._ymax)
         self._ymin = qtypes.Float("ymin", disabled=True)
         y_item.append(self._ymin)
-        self._reset_ylim = qtypes.Button("reset ylim", value={"text": "reset"})
+        self._reset_ylim = qtypes.Button("reset ylim", text="reset")
         self._reset_ylim.updated_connect(self._on_reset_ylim)
         y_item.append(self._reset_ylim)
         # y_item.setExpanded(True)
@@ -90,7 +84,7 @@ class IsSensorWidget(QtWidgets.QSplitter):
         id_item = qtypes.Null("id")
         self._root_item.append(id_item)
         for key, value in self.qclient.id().items():
-            id_item.append(qtypes.String(label=key, disabled=True, value={"value": value}))
+            id_item.append(qtypes.String(label=key, disabled=True, value=value))
             if key == "name":
                 self._big_number.set_label(value)
         # id_item.setExpanded(True)
@@ -100,9 +94,7 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._root_item.append(traits_item)
         for trait in yaq_traits.__traits__.traits.keys():
             traits_item.append(
-                qtypes.Bool(
-                    label=trait, disabled=True, value={"value": trait in self.qclient.traits}
-                )
+                qtypes.Bool(label=trait, disabled=True, value=trait in self.qclient.traits)
             )
 
         # properties
