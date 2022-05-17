@@ -85,23 +85,19 @@ class MainWindow(QtWidgets.QMainWindow):
         # self._view_buttons[key].setText("VIEWING ADVANCED")
         # self._view_buttons[key].set_background("yellow")
 
-    def _toggle_hide(self, key):
+    def _toggle_hide(self, key, label):
         self.hidden.symmetric_difference_update({key})
         with open(self.hidden_path, "wt") as f:
             for i in self.hidden:
                 f.write(i + "\n")
-        name = self._remove_card(key)
-        self._add_card(key, name)
+        self._remove_card(label)
+        self._add_card(key, label)
 
     def _remove_card(self, key):
-        ret = key
         if key in self._hidden:
-            ret = self._hidden[key].get()["label"]
-            del self._hidden[key]
+            self._hidden.pop(key)
         elif key in self._root_item:
-            ret = self._root_item[key].get()["label"]
-            del self._root_item[key]
-        return ret
+            self._root_item.pop(key)
 
     def _add_card(self, key, name):
         tree = self._root_item
@@ -114,7 +110,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self._qclients[key] = qclient
             pos = calc_position(tree, qclient.id()["name"])
             card = qtype_items.append_card_item(qclient, tree, pos)
-            setattr(card, "key", key)
             # card.setExpanded(True)
             view_advanced = tree[pos][-1]
             if view_advanced.get()["label"] != "":
@@ -126,17 +121,18 @@ class MainWindow(QtWidgets.QMainWindow):
                 qtypes.Button("", text="Unhide" if tree == self._hidden else "Hide")
             )
             view_advanced[-1].updated_connect(
-                lambda _: functools.partial(self._toggle_hide, key=key)()
+                lambda _: functools.partial(
+                    self._toggle_hide, key=key, label=card.get()["label"]
+                )()
             )
 
         except Exception as e:
             print(e)
             card = qtypes.String(name, disabled=True)
-            setattr(card, "key", key)
             pos = calc_position(tree, name)
             tree.insert(pos, card)
             tree[pos].set_value("offline")
             tree[pos].append(qtypes.Button("", text="Unhide" if tree == self._hidden else "Hide"))
-            tree[pos][-1].updated_connect(functools.partial(self._toggle_hide, key=key))
-
-        print(tree.get(), len(tree))
+            tree[pos][-1].updated_connect(
+                functools.partial(self._toggle_hide, key=key, label=card.get()["label"])
+            )
