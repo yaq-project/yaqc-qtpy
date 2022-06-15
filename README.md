@@ -43,3 +43,8 @@ DOCUMENTATION TODO
 #### `append_card_item`
 
 DOCUMENTATION TODO
+
+## maintainers
+
+[Blaise Thompson](https://github.com/untzag)
+[Kyle Sunden](https://github.com/ksunden)
