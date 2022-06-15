@@ -4,7 +4,6 @@ from qtpy import QtCore, QtWidgets
 
 
 class BigNumberWidget(QtWidgets.QWidget):
-
     def __init__(self):
         super().__init__()
         self.setLayout(QtWidgets.QHBoxLayout())
@@ -64,7 +63,9 @@ class Plot1D(pg.GraphicsView):
         self.addItem(text)
         return text
 
-    def add_infinite_line(self, color="#eab700", style="solid", angle=90.0, movable=False, hide=True):
+    def add_infinite_line(
+        self, color="#eab700", style="solid", angle=90.0, movable=False, hide=True
+    ):
         """
         Add an InfiniteLine object.
         Parameters
