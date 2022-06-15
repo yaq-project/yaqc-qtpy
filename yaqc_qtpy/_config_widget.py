@@ -1,9 +1,7 @@
 from qtpy import QtWidgets, QtCore
 
 
-
 class ConfigWidget(QtWidgets.QPlainTextEdit):
-
     def __init__(self, qclient, parent):
         super().__init__(parent=parent)
         self.qclient = qclient
