@@ -92,7 +92,6 @@ class Plot1D(pg.GraphicsView):
         elif style == "dotted":
             linestyle = QtCore.Qt.DotLine
         else:
-            print("style not recognized in add_infinite_line")
             linestyle = QtCore.Qt.SolidLine
         pen = pg.mkPen(color, style=linestyle, width=5)
         line = pg.InfiniteLine(pen=pen)

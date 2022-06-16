@@ -62,7 +62,6 @@ class HasPositionWidget(QtWidgets.QSplitter):
         plot_item.append(self._ymax)
         self._ymin = qtypes.Float("ymin", disabled=True)
         plot_item.append(self._ymin)
-        # plot_item.setExpanded(True)
 
         # id
         id_item = qtypes.Null("id")
@@ -71,7 +70,6 @@ class HasPositionWidget(QtWidgets.QSplitter):
             id_item.append(qtypes.String(label=key, disabled=True, value=value))
             if key == "name":
                 self._big_number.set_label(value)
-        # id_item.setExpanded(True)
 
         # traits
         traits_item = qtypes.Null("traits")
@@ -85,7 +83,6 @@ class HasPositionWidget(QtWidgets.QSplitter):
         properties_item = qtypes.Null("properties")
         self._root_item.append(properties_item)
         qtype_items.append_properties(self.qclient, properties_item)
-        # properties_item.setExpanded(True)
 
         # is-homeable
         if "is-homeable" in self.qclient.traits:
@@ -99,6 +96,9 @@ class HasPositionWidget(QtWidgets.QSplitter):
 
         self._tree_widget = qtypes.TreeWidget(self._root_item)
         self.addWidget(self._tree_widget)
+        self._tree_widget["plot"].expand(0)
+        self._tree_widget["id"].expand(0)
+        self._tree_widget["properties"].expand(0)
         self._tree_widget.resizeColumnToContents(0)
 
     def _on_destination_updated(self, destination):
