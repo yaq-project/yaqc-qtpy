@@ -46,13 +46,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.hidden_path.touch()
         with open(self.hidden_path, "r") as conf:
             self.hidden = {x.strip() for x in conf.readlines()}
-        self._hidden = qtypes.Null("Hidden")
+        self._hidden = qtypes.Null("hidden")
         self._root_item.append(self._hidden)
 
         with self._root_item.suppress_restructured():
             for key, value in json.items():
                 self._add_card(key, value["name"])
 
+        for i in range(len(self._tree_widget) - 1):
+            self._tree_widget[i].expand(0)
         self._tree_widget.resizeColumnToContents(0)
         self.setStyleSheet("".join(qtypes.styles["tomorrow-night"].values()))
 
@@ -92,6 +94,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 f.write(i + "\n")
         self._remove_card(label)
         self._add_card(key, label)
+        for i in range(len(self._tree_widget) - 1):
+            self._tree_widget[i].expand(0)
 
     def _remove_card(self, key):
         if key in self._hidden:
@@ -110,7 +114,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self._qclients[key] = qclient
             pos = calc_position(tree, qclient.id()["name"])
             card = qtype_items.append_card_item(qclient, tree, pos)
-            # card.setExpanded(True)
             view_advanced = tree[pos][-1]
             if view_advanced.get()["label"] != "":
                 view_advanced = tree[pos][-2]
@@ -127,7 +130,6 @@ class MainWindow(QtWidgets.QMainWindow):
             )
 
         except Exception as e:
-            print(e)
             card = qtypes.String(name, disabled=True)
             pos = calc_position(tree, name)
             tree.insert(pos, card)

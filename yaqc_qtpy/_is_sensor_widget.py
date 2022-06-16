@@ -77,8 +77,6 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._reset_ylim = qtypes.Button("reset ylim", text="reset")
         self._reset_ylim.updated_connect(self._on_reset_ylim)
         y_item.append(self._reset_ylim)
-        # y_item.setExpanded(True)
-        # plot_item.setExpanded(True)
 
         # id
         id_item = qtypes.Null("id")
@@ -87,7 +85,6 @@ class IsSensorWidget(QtWidgets.QSplitter):
             id_item.append(qtypes.String(label=key, disabled=True, value=value))
             if key == "name":
                 self._big_number.set_label(value)
-        # id_item.setExpanded(True)
 
         # traits
         traits_item = qtypes.Null("traits")
@@ -101,9 +98,11 @@ class IsSensorWidget(QtWidgets.QSplitter):
         properties_item = qtypes.Null("properties")
         self._root_item.append(properties_item)
         qtype_items.append_properties(self.qclient, properties_item)
-        # properties_item.setExpanded(True)
 
         self._tree_widget = qtypes.TreeWidget(self._root_item)
+        self._tree_widget["plot"].expand()
+        self._tree_widget["id"].expand()
+        self._tree_widget["properties"].expand()
         self._tree_widget.resizeColumnToContents(0)
         self.addWidget(self._tree_widget)
 
@@ -157,8 +156,8 @@ class IsSensorWidget(QtWidgets.QSplitter):
 
     def _on_lock_ylim(self, dic):
         locked = dic["value"]
-        self._ymin.disabled.emit(not locked)
-        self._ymax.disabled.emit(not locked)
+        self._ymin.set({"disabled": not locked})
+        self._ymax.set({"disabled": not locked})
 
     def _on_poll_period_updated(self, dic):
         self._poll_timer.setInterval(int(dic["value"] * 1000))

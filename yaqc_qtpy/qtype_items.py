@@ -58,5 +58,5 @@ def append_card_item(qclient, root, position=-1):
                 dep_client = QClient(host, int(port))
                 append_card_item(dep_client, dependents)
             except:
-                dependents.append(qtypes.String(key, True, value="offline"))
+                dependents.append(qtypes.String(key, disabled=True, value="offline"))
     return busy
