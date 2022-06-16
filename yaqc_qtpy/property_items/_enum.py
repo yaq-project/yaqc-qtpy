@@ -47,7 +47,5 @@ def Enum(key, property, qclient, symbols=None):
         signals[id(item)].append((sig, func))
         sig.connect(func)
         property.options()
-    sig, func = item.edited, partial(set_daemon, property=property)
-    signals[id(item)].append((sig, func))
-    sig.connect(func)
+    item.edited_connect(partial(set_daemon, property=property))
     return item

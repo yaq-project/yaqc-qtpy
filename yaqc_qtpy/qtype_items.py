@@ -36,16 +36,14 @@ def append_card_item(qclient, root, position=-1):
     root.insert(position, busy)
     # host:port
     busy.append(
-        qtypes.String(
-            label="host:port", disabled=True, value={"value": f"{qclient.host}:{qclient.port}"}
-        )
+        qtypes.String(label="host:port", disabled=True, value=f"{qclient.host}:{qclient.port}")
     )
     # properties
     append_properties(qclient, busy, only_hinted=True)
     # advanced button
     advanced_button = qtypes.Button(label="")
     busy.append(advanced_button)
-    advanced_button._widget.setText("view advanced menu")
+    advanced_button.set({"text": "view advanced menu"})
     if hasattr(qclient, "get_dependent_hardware"):
         dependents = qtypes.Null("Dependents")
         busy.append(dependents)
@@ -60,5 +58,5 @@ def append_card_item(qclient, root, position=-1):
                 dep_client = QClient(host, int(port))
                 append_card_item(dep_client, dependents)
             except:
-                dependents.append(qtypes.String(key, True, value={"value": "offline"}))
+                dependents.append(qtypes.String(key, True, value="offline"))
     return busy
