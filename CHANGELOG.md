@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2022.6.0]
+
+### Changed
+- extensive refactor for new qtypes
+- better plotting behavior for NaNs
+
 ## [2022.4.0]
 
 ### Added
@@ -76,13 +82,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - initial release
 
 
-[Unreleased]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.4.0...main
-[2022.4.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.3.1...v2022.4.0
-[2022.3.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.3.0...v2022.3.1
-[2022.3.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.1...v2022.3.0
-[2022.2.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.2.0...v2022.2.1
-[2022.2.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.1.1...v2022.2.0
-[2022.1.1]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2022.1.0...v2022.1.1
-[2022.1.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2021.12.0...v2022.1.0
-[2021.12.0]: https://gitlab.com/yaq/yaqc-qtpy/-/compare/v2021.11.0...v2021.12.0
-[2021.11.0]: https://gitlab.com/yaq/yaqc-qtpy/-/tags/v2021.11.0
+[Unreleased]: https://github.com/yaq/yaqc-qtpy/compare/v2022.6.0...main
+[2022.6.0]: https://github.com/yaq/yaqc-qtpy/compare/v2022.4.0...v2022.6.0
+[2022.4.0]: https://github.com/yaq/yaqc-qtpy/compare/v2022.3.1...v2022.4.0
+[2022.3.1]: https://github.com/yaq/yaqc-qtpy/compare/v2022.3.0...v2022.3.1
+[2022.3.0]: https://github.com/yaq/yaqc-qtpy/compare/v2022.2.1...v2022.3.0
+[2022.2.1]: https://github.com/yaq/yaqc-qtpy/compare/v2022.2.0...v2022.2.1
+[2022.2.0]: https://github.com/yaq/yaqc-qtpy/compare/v2022.1.1...v2022.2.0
+[2022.1.1]: https://github.com/yaq/yaqc-qtpy/compare/v2022.1.0...v2022.1.1
+[2022.1.0]: https://github.com/yaq/yaqc-qtpy/compare/v2021.12.0...v2022.1.0
+[2021.12.0]: https://github.com/yaq/yaqc-qtpy/compare/v2021.11.0...v2021.12.0
+[2021.11.0]: https://github.com/yaq/yaqc-qtpy/tags/v2021.11.0
