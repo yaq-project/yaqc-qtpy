@@ -1,3 +1,4 @@
+from collections import deque
 import time
 import warnings
 from functools import partial
@@ -18,8 +19,8 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self.qclient = qclient
         self._create_main_frame()
         # plotting variables
-        self._position_buffer = np.full(250, np.nan)
-        self._timestamp_buffer = np.full(250, np.nan)
+        self._position_buffer = deque(maxlen=250)
+        self._timestamp_buffer = deque(maxlen=250)
         # signals and slots
         if "position" in self.qclient.properties:
             self.qclient.properties.position.updated.connect(self._on_position_updated)
@@ -116,14 +117,13 @@ class HasPositionWidget(QtWidgets.QSplitter):
     def _on_position_updated(self, position):
         self._big_number.set_number(position)
         # roll over, enter new data
-        self._position_buffer = np.roll(self._position_buffer, -1)
-        self._timestamp_buffer = np.roll(self._timestamp_buffer, -1)
-        self._position_buffer[-1] = position
-        self._timestamp_buffer[-1] = time.time()
+        self._position_buffer.append(position)
+        self._timestamp_buffer.append(time.time())
         # set data
-        self._scatter.setData(self._timestamp_buffer - time.time(), self._position_buffer)
+        self._scatter.setData(np.array(self._timestamp_buffer) - time.time(), self._position_buffer)
         # x axis
-        self.plot_widget.set_xlim(-60, 0)
+        with warnings.catch_warnings():
+            self.plot_widget.set_xlim(-60, 0)
         # y axis
         if not self._lock_ylim.get_value():
             with warnings.catch_warnings():
