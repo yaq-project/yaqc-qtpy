@@ -120,7 +120,9 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self._position_buffer.append(position)
         self._timestamp_buffer.append(time.time())
         # set data
-        self._scatter.setData(np.array(self._timestamp_buffer) - time.time(), self._position_buffer)
+        self._scatter.setData(
+            np.array(self._timestamp_buffer) - time.time(), self._position_buffer
+        )
         # x axis
         with warnings.catch_warnings():
             self.plot_widget.set_xlim(-60, 0)
