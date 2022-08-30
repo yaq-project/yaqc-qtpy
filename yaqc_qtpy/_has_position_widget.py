@@ -56,13 +56,26 @@ class HasPositionWidget(QtWidgets.QSplitter):
         # plot control
         plot_item = qtypes.Null("plot")
         self._root_item.append(plot_item)
+        x_item = qtypes.Null("x axis")
+        plot_item.append(x_item)
+        self._cached_count = qtypes.Integer("cached values", value=250, minimum=0, maximum=1000)
+        self._cached_count.updated_connect(self._on_cached_count_updated)
+        x_item.append(self._cached_count)
+        self._xmin = qtypes.Float("xmin (s)", value=-60, minimum=-100, maximum=0)
+        self._xmin.updated_connect(self._on_xmin_updated)
+        x_item.append(self._xmin)
+        y_item = qtypes.Null("y axis")
+        plot_item.append(y_item)
         self._lock_ylim = qtypes.Bool("lock ylim", value=False)
         self._lock_ylim.updated_connect(self._on_lock_ylim)
-        plot_item.append(self._lock_ylim)
+        y_item.append(self._lock_ylim)
         self._ymax = qtypes.Float("ymax", disabled=True)
-        plot_item.append(self._ymax)
+        y_item.append(self._ymax)
         self._ymin = qtypes.Float("ymin", disabled=True)
-        plot_item.append(self._ymin)
+        y_item.append(self._ymin)
+        self._reset_ylim = qtypes.Button("reset ylim", text="reset")
+        self._reset_ylim.updated_connect(self._on_reset_ylim)
+        y_item.append(self._reset_ylim)
 
         # id
         id_item = qtypes.Null("id")
@@ -97,10 +110,22 @@ class HasPositionWidget(QtWidgets.QSplitter):
 
         self._tree_widget = qtypes.TreeWidget(self._root_item)
         self.addWidget(self._tree_widget)
-        self._tree_widget["plot"].expand(0)
+        self._tree_widget["plot"].expand()
         self._tree_widget["id"].expand(0)
         self._tree_widget["properties"].expand(0)
         self._tree_widget.resizeColumnToContents(0)
+
+    def _on_cached_count_updated(self, value):
+        position_buffer = deque(maxlen=value["value"])
+        timestamp_buffer = deque(maxlen=value["value"])
+
+        for p, t in zip(self._position_buffer, self._timestamp_buffer):
+            position_buffer.append(p)
+            timestamp_buffer.append(t)
+
+        self._position_buffer = position_buffer
+        self._timestamp_buffer = timestamp_buffer
+
 
     def _on_destination_updated(self, destination):
         self._destination_line.setValue(destination)
@@ -111,21 +136,20 @@ class HasPositionWidget(QtWidgets.QSplitter):
 
     def _on_lock_ylim(self, dic):
         locked = dic["value"]
-        self._ymin.disabled.emit(not locked)
-        self._ymax.disabled.emit(not locked)
+        self._ymin.set({"disabled": not locked})
+        self._ymax.set({"disabled": not locked})
 
     def _on_position_updated(self, position):
         self._big_number.set_number(position)
         # roll over, enter new data
         self._position_buffer.append(position)
         self._timestamp_buffer.append(time.time())
-        # set data
-        self._scatter.setData(
-            np.array(self._timestamp_buffer) - time.time(), self._position_buffer
-        )
         # x axis
         with warnings.catch_warnings():
-            self.plot_widget.set_xlim(-60, 0)
+            try:
+                self.plot_widget.set_xlim(self._xmin.get_value(), 0)
+            except:
+                pass
         # y axis
         if not self._lock_ylim.get_value():
             with warnings.catch_warnings():
@@ -139,9 +163,26 @@ class HasPositionWidget(QtWidgets.QSplitter):
                 ymax += 1e-6
             self._ymin.set_value(ymin)
             self._ymax.set_value(ymax)
+        if np.isnan(self._ymin.get_value()):
+            self.plot_widget.set_ylim(-1, 1)
+            return
+        if np.isnan(self._ymax.get_value()):
+            self.plot_widget.set_ylim(-1, 1)
+            return
         self.plot_widget.set_ylim(self._ymin.get_value(), self._ymax.get_value())
+        # set data
+        self._scatter.setData(
+            np.array(self._timestamp_buffer) - time.time(), self._position_buffer
+        )
         # labels
         self.plot_widget.set_labels(xlabel="seconds", ylabel="position")
+
+    def _on_reset_ylim(self, _=None):
+        self._ymin.set_value(np.nanmin(self._position_buffer))
+        self._ymax.set_value(np.nanmax(self._position_buffer))
+
+    def _on_xmin_updated(self, value):
+        self.plot_widget.set_xlim(value["value"], 0)
 
     def close(self):
         super().close()
