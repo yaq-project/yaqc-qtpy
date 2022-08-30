@@ -126,7 +126,6 @@ class HasPositionWidget(QtWidgets.QSplitter):
         self._position_buffer = position_buffer
         self._timestamp_buffer = timestamp_buffer
 
-
     def _on_destination_updated(self, destination):
         self._destination_line.setValue(destination)
 
