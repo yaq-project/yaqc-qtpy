@@ -48,6 +48,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.hidden = {x.strip() for x in conf.readlines()}
         self._hidden = qtypes.Null("hidden")
         self._root_item.append(self._hidden)
+        self._current_hidden=None
+        self._current_key=None
 
         with self._root_item.suppress_restructured():
             for key, value in json.items():
@@ -77,25 +79,32 @@ class MainWindow(QtWidgets.QMainWindow):
         splitter.setStretchFactor(1, 50)
 
     def _show_main_widget(self, key):
-        self._splash.hide()
-        for widget in self._main_widgets.values():
-            widget.hide()
-        if key not in self._main_widgets:
-            self._main_widgets[key] = MainWidget(qclient=self._qclients[key], parent=self)
-            self._main_widget_container.layout().addWidget(self._main_widgets[key])
-        self._main_widgets[key].show()
+        if self._current_key != key:
+            self._splash.hide()
+            for widget in self._main_widgets.values():
+                widget.hide()
+            if key not in self._main_widgets:
+                self._main_widgets[key] = MainWidget(qclient=self._qclients[key], parent=self)
+                self._main_widget_container.layout().addWidget(self._main_widgets[key])
+            self._current_key=key
+            self._main_widgets[key].show()
         # self._view_buttons[key].setText("VIEWING ADVANCED")
         # self._view_buttons[key].set_background("yellow")
 
     def _toggle_hide(self, key, label):
+
         self.hidden.symmetric_difference_update({key})
-        with open(self.hidden_path, "wt") as f:
-            for i in self.hidden:
-                f.write(i + "\n")
-        self._remove_card(label)
-        self._add_card(key, label)
-        for i in range(len(self._tree_widget) - 1):
-            self._tree_widget[i].expand(0)
+        if self.hidden != self._current_hidden:
+            with open(self.hidden_path, "wt") as f:
+                for i in self.hidden:
+                    f.write(i + "\n")
+            self._remove_card(label)
+            self._add_card(key, label)
+            self._current_hidden=self.hidden
+            self._current_key=key
+            for i in range(len(self._tree_widget) - 1):
+
+                self._tree_widget[i].expand(0)
 
     def _remove_card(self, key):
         if key in self._hidden:

@@ -117,9 +117,10 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._channel_units = shapes_task.result
 
     def _on_get_measurement_id(self, measurement_id):
-        self._scatter.setData(
-            np.array(self._timestamp_buffer) - time.time(), self._position_buffer
-        )
+        if self._current_qclient==self.qclient:
+            self._scatter.setData(
+                np.array(self._timestamp_buffer) - time.time(), self._position_buffer
+            )
         if self._last_plotted_measurement_id != measurement_id:
             self.qclient.get_measured()
 
@@ -132,10 +133,14 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._position_buffer.append(measured)
         self._timestamp_buffer.append(time.time())
         # set data
-        self._scatter.setData(
+        self._xdata=np.array(self._timestamp_buffer) - time.time()
+        self._ydata=self._position_buffer
+        
+        if (self._current_plot_widget==self):
+            self._scatter.setData(
             np.array(self._timestamp_buffer) - time.time(), self._position_buffer
         )
-        # x axis
+
         self.plot_widget.set_xlim(self._xmin.get_value(), 0)
         # y axis
         if not self._lock_ylim.get_value():
