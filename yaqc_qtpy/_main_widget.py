@@ -15,6 +15,7 @@ from ._plot import Plot1D
 # The ID of an installed kernel, e.g. 'bash' or 'ir'.
 USE_KERNEL = "python3"
 
+
 # This function was copied from the qtconsole embedding example code
 # https://github.com/jupyter/qtconsole/blob/b4e08f763ef1334d3560d8dac1d7f9095859545a/examples/embed_qtconsole.py#L19
 def make_jupyter_widget_with_kernel():
