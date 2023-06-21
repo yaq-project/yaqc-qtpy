@@ -110,7 +110,6 @@ class IsSensorWidget(QtWidgets.QSplitter):
         self._aspect = qtypes.Float("aspect", value=1)
         image_item.append(self._aspect)
 
-
         # id
         id_item = qtypes.Null("id")
         self._root_item.append(id_item)
@@ -293,7 +292,7 @@ class IsSensorWidget(QtWidgets.QSplitter):
     def _on_reset_ylim_1d(self, _=None):
         self._ymin_1d.set_value(np.nanmin(self._measure_1d))
         self._ymax_1d.set_value(np.nanmax(self._measure_1d))
-        
+
     def close(self):
         super().close()
         self.qclient.get_measured.finished.disconnect(self._on_get_measured)
