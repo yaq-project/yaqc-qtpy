@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - better control of plotting for has-position widget
 
+### Added
+- 1D and 2D channel plotting for `is_sensor` widget
+
 ## [2022.6.0]
 
 ### Changed
