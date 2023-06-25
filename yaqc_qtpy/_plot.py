@@ -53,6 +53,11 @@ class Plot1D(pg.GraphicsView):
         self.plot_object.addItem(curve)
         return curve
 
+    def add_image(self):
+        image = pg.ImageItem()
+        self.plot_object.addItem(image)
+        return image
+
     def add_line(self, color="c", size=3, symbol="o"):
         curve = pg.PlotCurveItem(symbol=symbol, pen=(color), brush=(color), size=size)
         self.plot_object.addItem(curve)
