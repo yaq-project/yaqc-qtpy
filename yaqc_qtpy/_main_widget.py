@@ -39,12 +39,10 @@ class MainWidget(QtWidgets.QTabWidget):
         self.qclient = qclient
         self.addTab(ConfigWidget(qclient=self.qclient, parent=self), "config")
         self.ipy = make_jupyter_widget_with_kernel()
-        self.ipy.execute(
-            f"""import yaqc
+        self.ipy.execute(f"""import yaqc
 c = yaqc.Client(host='{self.qclient.host}', port={self.qclient.port})
 {self.qclient.id()["name"]} = c
-"""
-        )
+""")
         self.addTab(self.ipy, "console")
         if "has-position" in self.qclient.traits:
             self.addTab(HasPositionWidget(qclient=self.qclient, parent=self), "has-position")

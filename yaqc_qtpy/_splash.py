@@ -3,7 +3,6 @@ import pathlib
 
 from qtpy import QtWidgets, QtCore, QtGui
 
-
 __here__ = pathlib.Path(__file__).parent
 
 
