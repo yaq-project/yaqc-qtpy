@@ -1,6 +1,5 @@
 """Main window."""
 
-
 import sys
 import functools
 import pathlib

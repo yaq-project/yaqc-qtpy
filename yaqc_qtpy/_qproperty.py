@@ -1,8 +1,6 @@
 """Class representing single property, see YEP-111."""
 
-
 from qtpy import QtCore
-
 
 Getter = object()
 CachedResult = object()
